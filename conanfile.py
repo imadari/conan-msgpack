@@ -1,5 +1,17 @@
 from conans import ConanFile, CMake, tools
 
+fallthrough_patch = """index 84504427..b62de9f3 100644
+--- a/include/msgpack/unpack_template.h
++++ b/include/msgpack/unpack_template.h
+@@ -236,6 +236,7 @@ msgpack_unpack_func(int, _execute)(msgpack_unpack_struct(_context)* ctx, const c
+ 
+             _fixed_trail_again:
+                 ++p;
++                __attribute__((fallthrough));
+ 
+             default:
+                 if((size_t)(pe - p) < trail) { goto _out; }
+"""
 
 class MsgpackConan(ConanFile):
     name = "msgpack"
@@ -9,29 +21,25 @@ class MsgpackConan(ConanFile):
     description = "<Description of Msgpack here>"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = "shared=True"
     generators = "cmake"
 
     def source(self):
-        self.run("git clone https://github.com/memsharded/hello.git")
-        self.run("cd hello && git checkout static_shared")
-        # This small hack might be useful to guarantee proper /MT /MD linkage
-        # in MSVC if the packaged project doesn't have variables to set it
-        # properly
-        tools.replace_in_file("hello/CMakeLists.txt", "PROJECT(MyHello)",
-                              '''PROJECT(MyHello)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()''')
+        self.run("git clone https://github.com/msgpack/msgpack-c.git")
+        self.run("cd msgpack-c && git checkout tags/cpp-2.1.1")
+        tools.patch(base_path="./msgpack-c/", patch_string=fallthrough_patch)
+        
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder="hello")
+        cmake.definitions["BUILD_SHARED_LIBS"] = "ON"
+        cmake.definitions["MSGPACK_CXX11"] = "ON"
+        cmake.definitions["MSGPACK_BUILD_EXAMPLES"] = "OFF"
+        cmake.definitions["MSGPACK_BUILD_TESTS"] = "OFF"
+        cmake.verbose = True
+        cmake.configure(source_folder="msgpack-c")
         cmake.build()
 
-        # Explicit way:
-        # self.run('cmake %s/hello %s'
-        #          % (self.source_folder, cmake.command_line))
-        # self.run("cmake --build . %s" % cmake.build_config)
 
     def package(self):
         self.copy("*.h", dst="include", src="hello")
