@@ -1,0 +1,15 @@
+[settings]
+os=Linux
+os_build=Linux
+arch=armv7hf
+arch_build=x86_64
+compiler=gcc
+compiler.version=7
+compiler.libcxx=libstdc++
+build_type=Release
+[options]
+[build_requires]
+[env]
+CFLAGS=-I/opt/riaps/armhf/include
+LDFLAGS="-L/opt/riaps/armhf/lib -L/usr/lib/arm-linux-gnueabihf/"
+PKG_CONFIG_PATH=/opt/riaps/armhf/lib/pkgconfig/
