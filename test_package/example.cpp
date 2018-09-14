@@ -1,6 +1,8 @@
 #include <iostream>
-#include "hello.h"
+#include "msgpack.h"
+
+using namespace std;
 
 int main() {
-    hello();
+    cout << "Works";
 }
