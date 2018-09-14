@@ -1,0 +1,11 @@
+index 84504427..b62de9f3 100644
+--- a/include/msgpack/unpack_template.h
++++ b/include/msgpack/unpack_template.h
+@@ -236,6 +236,7 @@ msgpack_unpack_func(int, _execute)(msgpack_unpack_struct(_context)* ctx, const c
+ 
+             _fixed_trail_again:
+                 ++p;
++                __attribute__((fallthrough));
+ 
+             default:
+                 if((size_t)(pe - p) < trail) { goto _out; }
