@@ -12,5 +12,5 @@ build_type=Release
 [env]
 LDFLAGS="-L/usr/lib/arm-linux-gnueabihf/"
 CC=arm-linux-gnueabihf-gcc
-CXX=arm-linux-gnueabihf-gcc
+CXX=arm-linux-gnueabihf-g++
 PATH=/usr/bin
