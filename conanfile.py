@@ -16,9 +16,9 @@ fallthrough_patch = """index 84504427..b62de9f3 100644
 class MsgpackConan(ConanFile):
     name = "msgpack"
     version = "2.1.1"
-    license = "<Put the package license here>"
-    url = "<Package recipe repository url here, for issues about the package>"
-    description = "<Description of Msgpack here>"
+    license = "Boost Software License, Version 1.0"
+    url = "https://github.com/imadari/conan-msgpack"
+    description = "Binary serialization library"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=True"
