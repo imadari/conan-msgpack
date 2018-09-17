@@ -10,6 +10,7 @@ build_type=Release
 [options]
 [build_requires]
 [env]
-CFLAGS=-I/opt/riaps/armhf/include
-LDFLAGS="-L/opt/riaps/armhf/lib -L/usr/lib/arm-linux-gnueabihf/"
-PKG_CONFIG_PATH=/opt/riaps/armhf/lib/pkgconfig/
+LDFLAGS="-L/usr/lib/arm-linux-gnueabihf/"
+CC=arm-linux-gnueabihf-gcc
+CXX=arm-linux-gnueabihf-gcc
+PATH=/usr/bin
